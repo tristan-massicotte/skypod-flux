@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<!--
+  OUTREACH PAGE TEMPLATE · Tristan Massicotte
+  - One file, no dependencies. Works offline and on GitHub Pages.
+  - Language: every visible string exists as <span lang="en"> and <span lang="fr">.
+    Set <html data-langs="en"> for English only (toggle hidden),
+    or data-langs="fr en" for French default with an English toggle.
+  - Per-company accent: change --accent in :root. Never use the company's logo, photos or brand colours.
+-->
+<html lang="fr" data-langs="fr en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Skypod : 400 robots = 8 semaines · Tristan Massicotte</title>
+<style>
+  :root{
+    --accent:#b45309;            /* per-company accent */
+    --accent-soft:#fdf6ee;
+    --ink:#0f172a; --body:#334155; --quiet:#64748b; --line:#e2e8f0; --bg:#ffffff; --panel:#f8fafc;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif;color:var(--body);background:var(--bg);line-height:1.55;font-size:16px}
+  main{max-width:680px;margin:0 auto;padding:28px 20px 56px}
+  span[lang]{display:none} html[data-show="en"] span[lang="en"], html[data-show="fr"] span[lang="fr"]{display:inline}
+  .top{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--quiet);margin-bottom:28px}
+  .toggle{border:1px solid var(--line);border-radius:999px;padding:4px;display:none;gap:2px}
+  html[data-langs~="fr"][data-langs~="en"] .toggle{display:inline-flex}
+  .toggle button{border:0;background:none;font:inherit;font-size:12px;padding:4px 10px;border-radius:999px;color:var(--quiet);cursor:pointer}
+  .toggle button[aria-pressed="true"]{background:var(--ink);color:#fff}
+  .kicker{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+  h1{color:var(--ink);font-size:34px;line-height:1.1;margin:0 0 14px;letter-spacing:-.02em}
+  h1 .big{display:block;font-size:56px;letter-spacing:-.03em}
+  .lead{font-size:18px;margin:0 0 8px}
+  .note{font-size:13px;color:var(--quiet);margin:0}
+  section{margin-top:44px}
+  h2{color:var(--ink);font-size:21px;line-height:1.25;margin:0 0 6px;letter-spacing:-.01em}
+  .sub{margin:0 0 18px;color:var(--body)}
+  /* takt bars */
+  .bars{display:grid;gap:10px}
+  .bar{display:grid;grid-template-columns:76px 1fr;align-items:center;gap:12px}
+  .bar .vol{font-size:14px;color:var(--quiet);text-align:right;font-variant-numeric:tabular-nums}
+  .bar .track{position:relative;height:34px}
+  .bar .fill{height:100%;border-radius:6px;background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);display:flex;align-items:center;padding:0 10px;min-width:max-content}
+  .bar.hot .fill{background:var(--accent);border-color:var(--accent)}
+  .bar .fill b{font-size:14px;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .bar.hot .fill b{color:#fff}
+  .chart{margin-top:28px}
+  .chart .sub{font-size:14px;color:var(--quiet);margin:0 0 10px}
+  /* about card */
+  .me{margin-top:32px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .me p{margin:0 0 14px}
+  .me b{color:var(--ink)}
+  .btns{display:flex;flex-wrap:wrap;gap:8px}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:10px;font-size:15px;font-weight:600;text-decoration:none;border:1px solid var(--accent);color:var(--accent);background:var(--bg)}
+  .btn.primary{background:var(--accent);color:#fff}
+  /* collapsible analysis */
+  .cards{display:grid;gap:10px}
+  details.card{border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+  details.card[open]{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+  details.card summary{list-style:none;cursor:pointer;padding:16px 48px 16px 16px;position:relative}
+  details.card summary::-webkit-details-marker{display:none}
+  details.card summary::after{content:"+";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:24px;line-height:1;color:var(--accent)}
+  details.card[open] summary::after{content:"\2212"}
+  details.card summary h3{margin:0;color:var(--ink);font-size:17px;line-height:1.3}
+  details.card summary .take{display:block;font-size:14px;color:var(--quiet);margin-top:3px}
+  details.card .body{padding:0 16px 16px}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+  .stat:last-child{grid-column:1/-1}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+  .stat b{display:block;color:var(--ink);font-size:24px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .stat span{font-size:13px;color:var(--quiet)}
+  .stat b span{font-size:inherit;color:inherit}
+  /* flow */
+  .flow{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+  .flow li{border:1px solid var(--line);border-radius:12px;padding:12px 14px;position:relative}
+  .flow li+li::before{content:"";position:absolute;left:24px;top:-9px;width:1px;height:8px;background:var(--quiet)}
+  .flow li.hot{border:2px solid var(--accent);background:var(--accent-soft)}
+  .flow .name{font-weight:600;color:var(--ink)}
+  .flow .why{font-size:14px;margin-top:2px}
+  .flow.list li+li::before{display:none}
+  .flow .tag{float:right;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--accent)}
+  /* plan */
+  .plan{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+  .plan li{display:grid;grid-template-columns:68px 1fr;gap:10px}
+  .plan .wk{font-size:13px;font-weight:600;color:var(--accent);padding-top:2px}
+  .plan .what b{color:var(--ink)}
+  .ask{margin-top:18px;background:var(--ink);color:#e2e8f0;border-radius:14px;padding:20px}
+  .ask b{color:#fff}
+  /* links */
+  .links{display:grid;gap:10px}
+  .links a{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:inherit}
+  .links a:active,.links a:hover{border-color:var(--accent)}
+  .links strong{display:block;color:var(--ink)}
+  .links small{color:var(--quiet);font-size:13px}
+  .links .arr{color:var(--accent);font-size:20px}
+  footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);font-size:14px}
+  footer a{color:var(--accent)}
+  .src{font-size:12px;color:var(--quiet);margin-top:14px}
+  @media (min-width:640px){
+    main{padding:48px 24px 72px}
+    h1{font-size:40px} h1 .big{font-size:72px}
+    .stats{grid-template-columns:repeat(3,1fr)} .stat:last-child{grid-column:auto}
+    .bar{grid-template-columns:96px 1fr}
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <div class="top">
+    <span>Tristan Massicotte · <span lang="fr">Génie industriel, U de T</span><span lang="en">U of T Industrial Engineering</span></span>
+    <span class="toggle" role="group" aria-label="Langue / Language">
+      <button type="button" data-set="fr">FR</button><button type="button" data-set="en">EN</button>
+    </span>
+  </div>
+
+  <p class="kicker"><span lang="fr">Notes pour l'équipe industrielle d'Exotec</span><span lang="en">Notes for Exotec's industrial team</span></p>
+  <h1>
+    <span lang="fr">Un projet de 400 robots</span><span lang="en">One 400-robot project</span>
+    <span class="big"><span lang="fr">= 8 semaines</span><span lang="en">= 8 weeks</span></span>
+  </h1>
+  <p class="lead"><span lang="fr">À une cinquantaine de Skypod par semaine, un projet de la taille de PepsiCo Dallas occupe toute la production pendant 8 semaines. Garder un flux constant quand les projets vont de 40 à plus de 400 robots, c'est tout l'enjeu de la planification. Voici comment je l'aborderais.</span><span lang="en">At about 50 Skypods a week, a PepsiCo Dallas-size project takes the whole plant's output for 8 weeks. Keeping a constant flow when projects range from 40 to 400+ robots is the core planning challenge. Here is how I'd approach it.</span></p>
+  <p class="note"><span lang="fr">Construit uniquement à partir d'information publique. Les hypothèses sont indiquées.</span><span lang="en">Built from public information only. Assumptions are labelled.</span></p>
+
+  <div class="chart">
+    <p class="sub"><span lang="fr">Semaines de production de toute l'usine, selon la taille du projet.</span><span lang="en">Weeks of the whole plant's output, by project size.</span></p>
+    <div class="bars">
+      <!-- widths = weeks / 8 -->
+      <div class="bar"><div class="vol">40</div><div class="track"><div class="fill" style="width:10%"><b><span lang="fr">0,8 sem.</span><span lang="en">0.8 wk</span></b></div></div></div>
+      <div class="bar"><div class="vol">100</div><div class="track"><div class="fill" style="width:25%"><b><span lang="fr">2 sem.</span><span lang="en">2 wk</span></b></div></div></div>
+      <div class="bar hot"><div class="vol">400</div><div class="track"><div class="fill" style="width:100%"><b><span lang="fr">8 sem.</span><span lang="en">8 wk</span></b></div></div></div>
+    </div>
+    <p class="src"><span lang="fr">Robots par projet : ~40 (premier déploiement Cdiscount), ~100 (Renault Brühl, DSV Venlo), 400+ (PepsiCo Dallas). Cadence : « une cinquantaine » de robots par semaine (L'Usine Digitale, février 2026).</span><span lang="en">Robots per project: ~40 (first Cdiscount deployment), ~100 (Renault Brühl, DSV Venlo), 400+ (PepsiCo Dallas). Rate: "about fifty" robots a week (L'Usine Digitale, February 2026).</span></p>
+  </div>
+
+  <!-- WHO I AM: visible without scrolling through the analysis -->
+  <div class="me">
+    <p><span lang="fr"><b>Je suis Tristan</b>, Québécois, étudiant de 2e année en génie industriel à l'Université de Toronto. Chez Technimount, un fabricant québécois, j'ai bâti un système de planification des besoins matières qui a <b>réduit de 90 % le temps de traitement des commandes</b>, et je développe maintenant le tableau de production qui suit l'inventaire le long de leur ligne d'assemblage.</span><span lang="en"><b>I'm Tristan</b>, from Québec, a 2nd-year Industrial Engineering student at the University of Toronto. At Technimount, a manufacturer in Québec, I built an MRP system that <b>cut order processing time by 90%</b>, and I now build the production board that tracks inventory along their assembly line.</span></p>
+    <div class="btns">
+      <a class="btn primary" href="Tristan_Massicotte_Resume.pdf" target="_blank" rel="noopener"><span lang="fr">CV</span><span lang="en">Resume</span></a>
+      <a class="btn" href="https://tristan-massicotte.github.io/engineering-internship-highlights" target="_blank" rel="noopener"><span lang="fr">Faits saillants de stage</span><span lang="en">Internship highlights</span></a>
+      <a class="btn" href="https://linkedin.com/in/tristan-massicotte" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+
+  <!-- ANALYSIS: collapsed by default, one-line takeaway on each -->
+  <section>
+    <h2><span lang="fr">L'analyse</span><span lang="en">The analysis</span></h2>
+    <p class="sub"><span lang="fr">Touchez pour ouvrir. Construit à partir d'information publique ; hypothèses indiquées.</span><span lang="en">Tap to open. Built from public information; assumptions labelled.</span></p>
+    <div class="cards">
+      <details class="card">
+        <summary><h3><span lang="fr">1. Flux constant, projets en dents de scie</span><span lang="en">1. Constant flow, lumpy projects</span></h3><span class="take"><span lang="fr">L'écart se règle avec un stock de robots finis, ou avec l'ordre des projets.</span><span lang="en">The gap is closed by a buffer of finished robots, or by project sequencing.</span></span></summary>
+        <div class="body">
+          <p class="sub"><span lang="fr">Exotec dit chercher « à garder un flux constant ». Exemple sur un trimestre : quatre projets de tailles publiques (100, 400, 100 et 40 robots), avec des semaines de livraison que j'ai inventées.</span><span lang="en">Exotec says it aims "to keep a constant flow". Example over one quarter: four projects of public sizes (100, 400, 100 and 40 robots), with delivery weeks I made up.</span></p>
+          <div class="stats">
+            <div class="stat"><b>200</b><span><span lang="fr">robots finis à avoir en stock au départ pour livrer le projet de 400 en semaine 6</span><span lang="en">finished robots needed in stock at the start to ship the 400-robot project in week 6</span></span></div>
+            <div class="stat"><b>300</b><span><span lang="fr">si ce client avance sa date de 2 semaines</span><span lang="en">if that customer pulls its date in by 2 weeks</span></span></div>
+            <div class="stat"><b><span lang="fr">50 / sem.</span><span lang="en">50 / wk</span></b><span><span lang="fr">de stock en plus pour chaque semaine qu'un gros projet avance : une semaine de production</span><span lang="en">more buffer for every week a big project moves earlier: one week of output</span></span></div>
+          </div>
+          <p class="src"><span lang="fr">Hypothèses : chaque projet part en entier dans sa semaine (en réalité, un déploiement s'étale, donc c'est le pire cas) ; les semaines de livraison sont des exemples.</span><span lang="en">Assumptions: each project ships whole in its week (real deployments are phased, so this is the worst case); delivery weeks are examples.</span></p>
+        </div>
+      </details>
+      <details class="card">
+        <summary><h3><span lang="fr">2. Où le flux se joue</span><span lang="en">2. Where the flow is decided</span></h3><span class="take"><span lang="fr">Le pipeline depuis l'Asie, le stock de robots finis, et deux générations à servir.</span><span lang="en">The pipeline from Asia, the finished-robot buffer, and two generations to support.</span></span></summary>
+        <div class="body">
+          <p class="sub"><span lang="fr">Le flux tel qu'il est décrit publiquement. Les étapes surlignées sont mes hypothèses.</span><span lang="en">The flow as publicly described. Highlighted steps are my hypotheses.</span></p>
+          <ol class="flow">
+            <li class="hot"><span class="tag"><span lang="fr">À surveiller</span><span lang="en">Watch</span></span><div class="name"><span lang="fr">Assemblage en Asie</span><span lang="en">Assembly in Asia</span></div><div class="why"><span lang="fr">« La quasi-totalité de l'assemblage » se fait en Asie.</span><span lang="en">"Nearly all of the assembly" happens in Asia.</span></div></li>
+            <li><div class="name"><span lang="fr">Transport vers Wasquehal</span><span lang="en">Shipping to Wasquehal</span></div><div class="why"><span lang="fr">Un projet qui bouge de 2 semaines doit être vu assez tôt en amont. Le délai n'est pas public : c'est une question, pas un chiffre.</span><span lang="en">A project that moves by 2 weeks has to be seen early enough upstream. The lead time isn't public: it's a question, not a number.</span></div></li>
+            <li><div class="name"><span lang="fr">Assemblage final</span><span lang="en">Final assembly</span></div><div class="why"><span lang="fr">Sur plateau glissant, environ 350 pièces par robot.</span><span lang="en">On a sliding platform, about 350 parts per robot.</span></div></li>
+            <li><div class="name"><span lang="fr">Tests</span><span lang="en">Testing</span></div><div class="why"><span lang="fr">Plusieurs cycles par robot avant expédition.</span><span lang="en">Several cycles per robot before shipping.</span></div></li>
+            <li class="hot"><span class="tag"><span lang="fr">À surveiller</span><span lang="en">Watch</span></span><div class="name"><span lang="fr">Stock de robots finis</span><span lang="en">Finished-robot buffer</span></div><div class="why"><span lang="fr">C'est lui qui absorbe l'écart entre ~50 robots par semaine et des projets de 40 à 400+. Sa taille et le moment où chaque robot est affecté à un projet sont la décision clé.</span><span lang="en">It absorbs the gap between ~50 robots a week and projects of 40 to 400+. Its size, and when each robot is assigned to a project, are the key decisions.</span></div></li>
+            <li><div class="name"><span lang="fr">Expédition par projet</span><span lang="en">Shipping by project</span></div><div class="why"><span lang="fr">Avec les stations, racks et convoyeurs du même système.</span><span lang="en">With the stations, racks and conveyors of the same system.</span></div></li>
+            <li class="hot"><span class="tag"><span lang="fr">À surveiller</span><span lang="en">Watch</span></span><div class="name"><span lang="fr">Service : deux générations</span><span lang="en">Service: two generations</span></div><div class="why"><span lang="fr">10 000 robots de 1re génération sur 200 sites, ~4 000 de 2e génération sur une dizaine : les pièces de rechange des deux, planifiées dans un ERP qui vient de changer.</span><span lang="en">10,000 first-gen robots on 200 sites, ~4,000 second-gen on about ten: spare parts for both, planned in an ERP that was just replaced.</span></div></li>
+          </ol>
+        </div>
+      </details>
+      <details class="card">
+        <summary><h3><span lang="fr">3. Un modèle à faire tourner avec vos chiffres</span><span lang="en">3. A model you can run on your numbers</span></h3><span class="take"><span lang="fr">Stock de robots finis semaine par semaine, et l'effet d'un projet qui bouge.</span><span lang="en">Finished-robot buffer week by week, and what happens when a project moves.</span></span></summary>
+        <div class="body">
+          <ol class="flow list">
+            <li><div class="name"><span lang="fr">Projets</span><span lang="en">Projects</span></div><div class="why"><span lang="fr">Taille, semaine de livraison et semaines de production de chaque projet.</span><span lang="en">Size, delivery week and weeks of output for each project.</span></div></li>
+            <li><div class="name"><span lang="fr">Calendrier</span><span lang="en">Calendar</span></div><div class="why"><span lang="fr">Production constante contre expéditions : le stock semaine par semaine et le stock de départ pour ne livrer aucun projet en retard.</span><span lang="en">Constant output against shipments: the buffer week by week and the starting buffer so no project ships late.</span></div></li>
+            <li><div class="name"><span lang="fr">Hypothèses</span><span lang="en">Inputs</span></div><div class="why"><span lang="fr">Changez la cadence, le stock de départ, ou faites bouger un projet : tout se recalcule.</span><span lang="en">Change the rate, the starting buffer, or move a project: everything recalculates.</span></div></li>
+          </ol>
+          <p class="src" style="margin-bottom:14px"><span lang="fr">Cellules bleues : entrées ; cellules jaunes : mes hypothèses, à remplacer par les vraies données. Le modèle est en français.</span><span lang="en">Blue cells are inputs; yellow cells are my assumptions, to replace with real data. The model is in French.</span></p>
+          <div class="btns"><a class="btn primary" href="Skypod_Flux_Modele_Tristan_Massicotte.xlsx"><span lang="fr">Télécharger le modèle (Excel)</span><span lang="en">Download the model (Excel)</span></a></div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- PLAN + ASK -->
+  <section>
+    <h2><span lang="fr">Mes 16 semaines</span><span lang="en">My 16 weeks</span></h2>
+    <ol class="plan">
+      <li><span class="wk"><span lang="fr">Sem. 1–2</span><span lang="en">Wk 1–2</span></span><span class="what"><b><span lang="fr">Travailler sur la ligne.</span><span lang="en">Work the line.</span></b> <span lang="fr">Un quart à chaque poste de l'assemblage final et des tests ; suivre un robot de la réception à l'expédition.</span><span lang="en">A shift at each final-assembly and test station; follow one robot from receiving to shipping.</span></span></li>
+      <li><span class="wk"><span lang="fr">Sem. 3–6</span><span lang="en">Wk 3–6</span></span><span class="what"><b><span lang="fr">Cartographier le flux.</span><span lang="en">Map the flow.</span></b> <span lang="fr">Les délais de chaque étape depuis l'Asie, le vrai stock de robots finis, et le moment où chaque robot est affecté à un projet ; un suivi hebdomadaire dans le nouvel ERP.</span><span lang="en">Lead times for each step from Asia, the real finished-robot buffer, and when each robot is assigned to a project; a weekly tracker in the new ERP.</span></span></li>
+      <li><span class="wk"><span lang="fr">Sem. 7–11</span><span lang="en">Wk 7–11</span></span><span class="what"><b><span lang="fr">Construire le plan de charge.</span><span lang="en">Build the load plan.</span></b> <span lang="fr">Production constante contre le calendrier projets du semestre, stock cible, et la règle à suivre quand un projet bouge, avec la planification et les chefs de projet.</span><span lang="en">Constant output against the half-year project calendar, a target buffer, and the rule to follow when a project moves, with planning and the project managers.</span></span></li>
+      <li><span class="wk"><span lang="fr">Sem. 12–16</span><span lang="en">Wk 12–16</span></span><span class="what"><b><span lang="fr">Le faire tourner et le prouver.</span><span lang="en">Run it and prove it.</span></b> <span lang="fr">L'utiliser chaque semaine, mesurer retards et stock par rapport à la base, corriger ce qui casse, puis l'étendre aux stations ou aux pièces de rechange.</span><span lang="en">Use it every week, measure delays and buffer against the baseline, fix what breaks, then extend it to stations or spare parts.</span></span></li>
+    </ol>
+    <div class="ask">
+      <b><span lang="fr">Ma demande :</span><span lang="en">My ask:</span></b>
+      <span lang="fr">un stage de quatre mois à l'été 2027 en planification ou méthodes industrielles, à Wasquehal. Je m'occupe des démarches administratives.</span><span lang="en">a four-month summer 2027 internship in planning or industrial methods, in Wasquehal. I handle the paperwork.</span>
+    </div>
+  </section>
+
+  <!-- LINKS -->
+  <section>
+    <h2><span lang="fr">Liens</span><span lang="en">Links</span></h2>
+    <div class="links">
+      <a href="Skypod_Flux_Modele_Tristan_Massicotte.xlsx"><div><strong><span lang="fr">Modèle de flux (Excel)</span><span lang="en">Flow model (Excel)</span></strong><small><span lang="fr">Remplacez par les vrais chiffres ; tout se recalcule</span><span lang="en">Swap in real numbers; everything recalculates</span></small></div><span class="arr">→</span></a>
+      <a href="Tristan_Massicotte_Resume.pdf" target="_blank" rel="noopener"><div><strong><span lang="fr">CV</span><span lang="en">Resume</span></strong><small><span lang="fr">Une page (en anglais)</span><span lang="en">One page</span></small></div><span class="arr">→</span></a>
+      <a href="https://tristan-massicotte.github.io/engineering-internship-highlights" target="_blank" rel="noopener"><div><strong><span lang="fr">Ce que j'ai construit chez Technimount</span><span lang="en">What I built at Technimount</span></strong><small><span lang="fr">MRP (−90 % du temps de traitement des commandes), tableau de production, tableaux de bord</span><span lang="en">MRP (−90% order processing time), production board, dashboards</span></small></div><span class="arr">→</span></a>
+    </div>
+  </section>
+
+  <footer>
+    <b>Tristan Massicotte</b> · <a href="mailto:tristanmassicotte@me.com">tristanmassicotte@me.com</a> · +1 581-980-9117 · <a href="https://linkedin.com/in/tristan-massicotte" target="_blank" rel="noopener">LinkedIn</a>
+    <p class="src"><span lang="fr">Sources : L'Usine Digitale, « Robotique : Près de Lille, Exotec mise sur son nouveau siège XXL… » (5 févr. 2026) ; Voxlog, « Sur 25 000 m² inaugurés à Wasquehal… » (4 févr. 2026) ; Exotec et L'Usine Digitale sur DSV Venlo (2026). Aucune affiliation avec Exotec.</span><span lang="en">Sources: L'Usine Digitale, "Robotique : Près de Lille, Exotec mise sur son nouveau siège XXL…" (Feb 5 2026); Voxlog, "Sur 25 000 m² inaugurés à Wasquehal…" (Feb 4 2026); Exotec and L'Usine Digitale on DSV Venlo (2026). Not affiliated with Exotec.</span></p>
+  </footer>
+</main>
+<script>
+  (function(){
+    var root=document.documentElement;
+    var langs=(root.getAttribute('data-langs')||'en').split(/\s+/);
+    var saved=null; try{saved=localStorage.getItem('lang')}catch(e){}
+    function set(l){ if(langs.indexOf(l)<0) l=langs[0];
+      root.setAttribute('data-show',l); root.setAttribute('lang',l);
+      document.querySelectorAll('.toggle button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.set===l)});
+      try{localStorage.setItem('lang',l)}catch(e){} }
+    document.querySelectorAll('.toggle button').forEach(function(b){b.addEventListener('click',function(){set(b.dataset.set)})});
+    set(saved||langs[0]);
+  })();
+</script>
+</body>
+</html>
