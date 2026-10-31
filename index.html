@@ -226,13 +226,17 @@
   (function(){
     var root=document.documentElement;
     var langs=(root.getAttribute('data-langs')||'en').split(/\s+/);
-    var saved=null; try{saved=localStorage.getItem('lang')}catch(e){}
-    function set(l){ if(langs.indexOf(l)<0) l=langs[0];
+    // All pages share one origin (tristan-massicotte.github.io), so remember the choice per page.
+    var key='lang:'+location.pathname;
+    var param=null; try{param=new URLSearchParams(location.search).get('lang')}catch(e){}
+    var saved=null; try{saved=localStorage.getItem(key)}catch(e){}
+    function set(l,remember){ if(langs.indexOf(l)<0) l=langs[0];
       root.setAttribute('data-show',l); root.setAttribute('lang',l);
       document.querySelectorAll('.toggle button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.set===l)});
-      try{localStorage.setItem('lang',l)}catch(e){} }
-    document.querySelectorAll('.toggle button').forEach(function(b){b.addEventListener('click',function(){set(b.dataset.set)})});
-    set(saved||langs[0]);
+      if(remember){try{localStorage.setItem(key,l)}catch(e){}} }
+    document.querySelectorAll('.toggle button').forEach(function(b){b.addEventListener('click',function(){set(b.dataset.set,true)})});
+    // ?lang=fr (used in the QR code) wins over a remembered choice
+    set(param||saved||langs[0]);
   })();
 </script>
 </body>
